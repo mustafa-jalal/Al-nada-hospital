@@ -8,7 +8,8 @@
     @page {
       size: 38mm 25mm;
       margin: 0px;
-      padding-top: 10%
+      padding-top: 0%;
+      padding-right: 2%
     }
 
     /* Style for the printable patient card */
@@ -19,8 +20,8 @@
       flex-direction: column;
       justify-content: center;
       align-items: flex-start;
-      padding: 0px; /* Optional padding */
-      font-size: 10px;
+      padding: 0px;
+      font-size: 0px;
       font-family: Arial, sans-serif;
       box-sizing: border-box;
       direction: rtl; /* Right-to-left direction for Arabic */
@@ -38,7 +39,7 @@
         position: absolute;
         top: 0;
         left: 0;
-	font-size: 9px;
+	font-size: 8px;
       }
     }
 
