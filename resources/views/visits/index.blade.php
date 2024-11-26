@@ -24,7 +24,7 @@
                         @if(!$visit->checked_out_at)
                             <button class="checkoutBtn" data-id="{{ $visit->id }}">تسجيل الخروج</button>
                         @endif
-                        <!-- <button class="cancelBtn" data-id="{{ $visit->id }}">إلغاء</button> -->
+                        <button class="cancelBtn" data-id="{{ $visit->id }}">حذف</button>
                     </td>
                 </tr>
             @endforeach

@@ -10,7 +10,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'خطأ',
-                    text: '<%= error %>',
+                    text: '{{ $error }}',
                     confirmButtonText: 'حسناً'
                 });
             });
@@ -22,7 +22,7 @@
         <div class="modal" id="checkInPatientModal">
             <div class="modal-content">
                 <span class="close" id="closeModal">&times;</span>
-                <h3>تسجيل دخول مريض جديد</h3>
+                <h3>اضافة دخول مريض جديد</h3>
                 <form id="checkInPatientForm">
                     <div class="input-group">
                         <input type="text" name="name" placeholder="اسم المريض" required />
@@ -32,6 +32,13 @@
                     </div>
                     <div class="input-group">
                         <input type="tel" name="phone" placeholder="رقم الهاتف" />
+                    </div>
+                    <div class="input-group">
+                        <select name="gender" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; background-color: white; font-size: 14px; color: #333; margin-bottom: 10px;">
+                            <option value="">اختر النوع</option>
+                            <option value="male">ذكر</option>
+                            <option value="female">أنثى</option>
+                        </select>
                     </div>
                     <div class="input-group">
                         <input type="text" name="address" placeholder="العنوان" />
@@ -60,7 +67,7 @@
             </thead>
             <tbody id="patientList">
             @foreach($patients->items() as $patient)
-                <tr data-id="<%= patient.id %>">
+                <tr data-id="{{ $patient->id }}">
                     <td>{{ $patient->id }}</td>
                     <td>{{ $patient->name }}</td>
                     <td>{{ $patient->national_number }}</td>
@@ -77,13 +84,13 @@
         </table>
         <div class="pagination">
             @if ($patients->currentPage() > 1)
-            <a href="?page=<%= currentPage - 1 %>">السابق</a>
+            <a href="?page={{ $patients->currentPage() - 1 }}">السابق</a>
             @endif
-            @for($i = 1; $i <= $patients->total(); $i++)
-            <a href="?page=<{{ $i }} >" class="{{$patients->currentPage() === $i ? 'active' : '' }}">{{ $i }}</a>
+            @for($i = 1; $i <= $patients->lastPage(); $i++)
+            <a href="?page={{ $i }}" class="{{ $patients->currentPage() === $i ? 'active' : '' }}">{{ $i }}</a>
             @endfor
-            @if($patients->currentPage() < $patients->total())
-            <a href="?page=<{{ $patients->currentPage() + 1 }}>">التالي</a>
+            @if($patients->currentPage() < $patients->lastPage())
+            <a href="?page={{ $patients->currentPage() + 1 }}">التالي</a>
             @endif
         </div>
     </div>
@@ -121,12 +128,11 @@
             const response = await fetch('/patients', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 body: JSON.stringify(data)
             });
-
-            console.log(response);
 
             if (response.ok) {
                 Swal.fire({
@@ -160,10 +166,13 @@
         button.addEventListener('click', async function() {
             const patientId = this.closest('tr').dataset.id;
 
-            if (confirm('هل أنت متأكد من رغبتك في حذف هذا المريض؟')) {
+            if (confirm('هل أنت متأكد من رغبتك في حذف هذا المريض وجميع الزيارات المرتبطة به؟')) {
                 try {
                     const response = await fetch(`/patients/${patientId}`, {
-                        method: 'DELETE'
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        }
                     });
 
                     if (response.ok) {

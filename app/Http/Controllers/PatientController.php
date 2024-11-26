@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Patient;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PatientController extends Controller
 {
@@ -26,7 +27,7 @@ class PatientController extends Controller
             'national_number' => 'required|unique:patients',
             'gender' => 'required',
             'address' => 'nullable|string',
-            'phone_number' => 'nullable|string',
+            'phone' => 'nullable|string',
         ]);
 
         // Generate unique medical number
@@ -42,6 +43,15 @@ class PatientController extends Controller
         ]);
 
         return redirect()->route('patients.index');
+    }
+
+    public function destroy(Patient $patient)
+    {
+        $patient->visits()->delete();
+
+        $patient->delete();
+
+        return response()->json(['message' => 'Patient deleted successfully.']);
     }
 
 }

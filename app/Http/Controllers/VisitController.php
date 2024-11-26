@@ -19,7 +19,6 @@ class VisitController extends Controller
         $today = Carbon::today();
 
         $visits = Visit::whereDate('checked_at', $today)->orderBy('checked_at', 'desc')->paginate(10);
-
         return view('visits.todays_visits', compact('visits'));
     }
 
@@ -92,7 +91,6 @@ class VisitController extends Controller
 
     public function checkOut(Request $request, $id)
     {
-
         $visit = Visit::findOrFail($id);
 
         $visit->update(['checked_out_at' => now()]);
@@ -103,12 +101,14 @@ class VisitController extends Controller
     public function index()
     {
         $visits = Visit::with('patient')->paginate(10);
+        
         return view('visits.index', compact('visits'));
     }
 
     public function cancel(Visit $visit)
     {
         $visit->delete();
+
         return response()->json(['message' => 'Visit canceled successfully.']);
     }
 

@@ -14,4 +14,4 @@ Route::resource('visits', VisitController::class);
 Route::get('visits/{id}/sticker', [VisitController::class, 'printSticker'])->name('visits.sticker');
 Route::post('visits/{id}/checkout', [VisitController::class, 'checkOut'])->name('visits.checkout');
 Route::get('/visits', [VisitController::class, 'index'])->name('visits.index');
-Route::post('/visits/{id}/cancel', [VisitController::class, 'cancel'])->name('visits.cancel');
+Route::post('/visits/{visit}/cancel', [VisitController::class, 'cancel'])->name('visits.cancel');
