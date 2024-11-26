@@ -39,19 +39,21 @@
     document.querySelectorAll('.checkoutBtn').forEach(button => {
         button.addEventListener('click', async function() {
             const visitId = this.dataset.id;
-            try {
-                const response = await fetch(`/visits/${visitId}/checkout`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            if (confirm('هل أنت متأكد من رغبتك في تسجيل خروج هذا المريض؟')) {
+                try {
+                    const response = await fetch(`/visits/${visitId}/checkout`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        }
+                    });
+                    if (response.ok) {
+                        alert('تم تسجيل خروج الزيارة بنجاح.');
+                        location.reload();
                     }
-                });
-                if (response.ok) {
-                    alert('تم تسجيل خروج الزيارة بنجاح.');
-                    location.reload();
+                } catch (error) {
+                    alert('حدث خطأ أثناء تسجيل الخروج.');
                 }
-            } catch (error) {
-                alert('حدث خطأ أثناء تسجيل الخروج.');
             }
         });
     });
