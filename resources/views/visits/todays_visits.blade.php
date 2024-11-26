@@ -125,7 +125,7 @@
                     <td>{{ $visit->checked_out_at ?? "لم يتم الخروج بعد" }}</td>
                     <td>
                         <button onclick="printSticker({{ $visit->id }})" class="printStickerBtn" style="background-color: #4CAF50; margin-right: 2px; padding: 0.15rem 0.3rem; font-size: 0.7rem; display: inline-block;"><i class="fas fa-print"></i></button>
-                        <button class="checkOutBtn" style="background-color: #f44336; padding: 0.15rem 0.3rem; font-size: 0.7rem; display: inline-block;"><i class="fas fa-sign-out-alt"></i></button>
+                        <button class="checkoutBtn" style="background-color: #f44336; padding: 0.15rem 0.3rem; font-size: 0.7rem; display: inline-block;"><i class="fas fa-sign-out-alt"></i></button>
                     </td>
                 </tr>
             @endforeach
@@ -222,7 +222,7 @@
             }
         });
 
-        // Handle patient deletion
+        // Handle patient checkout
         document.querySelectorAll('.checkoutBtn').forEach(button => {
             button.addEventListener('click', async function() {
                 const visitId = this.closest('tr').dataset.id;
@@ -230,7 +230,10 @@
                 if (confirm('هل أنت متأكد من رغبتك تسجيل خروج هذا المريض؟')) {
                     try {
                         const response = await fetch(`/visits/${visitId}/checkout`, {
-                            method: 'POST'
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value // CSRF token
+                            }
                         });
 
                         if (response.ok) {
@@ -262,17 +265,17 @@
             });
         });
 
-    function printSticker(visitId) {
-        // Open the print view in a new tab
-        const printWindow = window.open(`/visits/${visitId}/sticker`, '_blank');
-        
-        // Optional: Automatically close the tab after printing
-        printWindow.onload = function() {
-            printWindow.print();
-            printWindow.onafterprint = function() {
-                printWindow.close();
+        function printSticker(visitId) {
+            // Open the print view in a new tab
+            const printWindow = window.open(`/visits/${visitId}/sticker`, '_blank');
+            
+            // Optional: Automatically close the tab after printing
+            printWindow.onload = function() {
+                printWindow.print();
+                printWindow.onafterprint = function() {
+                    printWindow.close();
+                };
             };
-        };
-    }
+        }
     </script>
 @endsection

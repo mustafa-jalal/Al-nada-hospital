@@ -319,7 +319,7 @@
     <ul>
         <li><a href="/dashboard"><i class="fas fa-tachometer-alt"></i> لوحة التحكم</a></li>
         <li><a href="/patients"><i class="fas fa-user-injured"></i> المرضى</a></li>
-        <li><a href="/appointments"><i class="far fa-calendar-alt"></i> المواعيد</a></li>
+        <li><a href="/visits"><i class="far fa-calendar-alt"></i> الزيارات</a></li>
         <li><a href="/reports"><i class="fas fa-chart-bar"></i> التقارير</a></li>
         <li><a href="/settings"><i class="fas fa-cog"></i> الإعدادات</a></li>
         <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>

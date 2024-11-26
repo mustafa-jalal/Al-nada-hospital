@@ -100,6 +100,18 @@ class VisitController extends Controller
         return redirect()->back()->with('success', 'Patient successfully checked out.');
     }
 
+    public function index()
+    {
+        $visits = Visit::with('patient')->paginate(10);
+        return view('visits.index', compact('visits'));
+    }
+
+    public function cancel(Visit $visit)
+    {
+        $visit->delete();
+        return response()->json(['message' => 'Visit canceled successfully.']);
+    }
+
     public function printSticker($visitId)
     {
         $visit = Visit::findOrFail($visitId);
