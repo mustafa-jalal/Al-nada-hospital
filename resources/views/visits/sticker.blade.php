@@ -7,7 +7,8 @@
     /* Set the page size for thermal printing */
     @page {
       size: 38mm 25mm;
-      margin: 0;
+      margin: 0px;
+      padding-top: 10%
     }
 
     /* Style for the printable patient card */
@@ -18,8 +19,8 @@
       flex-direction: column;
       justify-content: center;
       align-items: flex-start;
-      padding: 5px; /* Optional padding */
-      font-size: 9px;
+      padding: 0px; /* Optional padding */
+      font-size: 10px;
       font-family: Arial, sans-serif;
       box-sizing: border-box;
       direction: rtl; /* Right-to-left direction for Arabic */
@@ -37,6 +38,7 @@
         position: absolute;
         top: 0;
         left: 0;
+	font-size: 9px;
       }
     }
 
@@ -72,7 +74,7 @@
     <h3> مستشفى الندى التخصصى</h3>
     <table>
       <tr>
-        <td>اسم:</td>
+        <td>الاسم:</td>
         <td>{{ $visit->patient->name }}</td>
       </tr>
       <tr>
@@ -102,6 +104,11 @@
     // Automatically trigger print when the page loads
     window.onload = function() {
         window.print();
+    }
+
+    // Listen for the 'afterprint' event, which occurs when the print dialog is closed
+    window.onafterprint = function() {
+      window.close(); // Close the window after the print dialog is closed
     }
   </script>
 
