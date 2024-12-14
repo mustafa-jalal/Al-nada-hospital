@@ -322,7 +322,10 @@
         <li><a href="/visits"><i class="far fa-calendar-alt"></i> الزيارات</a></li>
 {{--        <li><a href="/reports"><i class="fas fa-chart-bar"></i> التقارير</a></li>--}}
 {{--        <li><a href="/settings"><i class="fas fa-cog"></i> الإعدادات</a></li>--}}
-        <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <li><button type="submit"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج </button></li>
+        </form>
     </ul>
 </div>
 <div class="main">

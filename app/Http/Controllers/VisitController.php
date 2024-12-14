@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\MakeNewVisitRequest;
 use Illuminate\Http\Request;
 use App\Models\Visit;
 use App\Models\Patient;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class VisitController extends Controller
 {
-    public function todaysVisits()
+    public function todayVisits(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
     {
         $today = Carbon::today();
 
         $visits = Visit::whereDate('checked_at', $today)->orderBy('checked_at', 'desc')->paginate(10);
+
         return view('visits.todays_visits', compact('visits'));
     }
 
@@ -101,7 +100,7 @@ class VisitController extends Controller
     public function index()
     {
         $visits = Visit::with('patient')->paginate(10);
-        
+
         return view('visits.index', compact('visits'));
     }
 
